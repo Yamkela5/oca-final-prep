@@ -25,10 +25,22 @@ class Apple {
     public int getWeight() {
         return weight;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Color: %s Price: %.2f Weight: %s", color, price, weight);
+    }
 }
 
 public class AboutPredicatesWithObjects {
 
+    static void filter(Predicate<Apple> pred, Apple[] apples) {
+        for(Apple apple : apples) {
+            if (pred.test(apple)) {
+                System.out.println(apple);
+            }
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -41,12 +53,24 @@ public class AboutPredicatesWithObjects {
         };
 
         // find all the green apples
-        Predicate<Apple> printGreenApples;
+        Predicate<Apple> printGreenApples = (apple) -> apple.getColor().equals("Green");
 
+        filter(printGreenApples, apples);
+
+        System.out.println("----------------");
         // print Apples Cheaper Than R5.50;
         Predicate<Apple> printApplesCheaperThan550;
 
+        filter((apple) -> apple.getPrice() < 5.5, apples);
+        System.out.println("----------------");
+
+        Predicate<Apple> lessThan7 = (apple) -> apple.getPrice() < 7;
+        Predicate<Apple> lessThan5 = (apple) -> apple.getPrice() < 5;
+        Predicate<Apple> isGreen = (apple) -> apple.getColor().equals("Green");
+
         // print all the green apples cheaper than R5.00
+        filter(lessThan5.or(isGreen), apples);
+
 
 
 
